@@ -1,9 +1,10 @@
 import { Calculator } from '../src/apis/calculator'
 import { OpenAiAgent } from '../src/chat-agents/open-ai'
+import {AzureOpenAiAgent} from "../src/chat-agents/azure-open-ai";
 import { WorkGptRunner } from '../src/runners/workgpt'
 
 async function main() {
-  const agent = new OpenAiAgent({
+  const agent = new AzureOpenAiAgent({
     verbose: true,
     temperature: 0,
   })

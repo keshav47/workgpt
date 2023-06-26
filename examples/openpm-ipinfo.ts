@@ -6,6 +6,8 @@ import { OpenpmApi } from '../src/apis/openpm'
 import { OpenAiAgent } from '../src/chat-agents/open-ai'
 import { WorkGptRunner } from '../src/runners/workgpt'
 import { haltProgram } from '../src/runners/control'
+import {AzureOpenAiAgent} from "../src/chat-agents/azure-open-ai";
+
 
 export class WorkGptControl extends Api {
   @invokable({
@@ -22,10 +24,10 @@ export class WorkGptControl extends Api {
 }
 
 async function main() {
-  const agent = new OpenAiAgent({
+  const agent = new AzureOpenAiAgent({
     verbose: true,
     temperature: 0.1,
-    model: 'gpt-4-0613',
+    // model: 'gpt-4-0613',
   })
 
   const apis = await Promise.all([

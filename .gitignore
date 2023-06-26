@@ -13,3 +13,4 @@ todo.md
 .env*
 .dev*
 .env.local
+package-lock.json

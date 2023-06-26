@@ -1,10 +1,11 @@
 import { Calculator } from '../src/apis/calculator'
 import { DadJokeApi } from '../src/apis/dadjoke'
 import { OpenAiAgent } from '../src/chat-agents/open-ai'
+import {AzureOpenAiAgent} from "../src/chat-agents/azure-open-ai";
 import { WorkGptRunner } from '../src/runners/workgpt'
 
 async function main() {
-  const agent = new OpenAiAgent({ verbose: true, temperature: 0.5 })
+  const agent = new AzureOpenAiAgent({ verbose: true, temperature: 0.5 })
 
   const apis = [new Calculator(), new DadJokeApi()]
 
@@ -13,7 +14,7 @@ async function main() {
     apis,
   })
 
-  const result = await runner.runWithDirective('Give me a joke about sailing')
+  const result = await runner.runWithDirective('Give me a joke about Coding')
 
   console.log('Result', result)
 }
