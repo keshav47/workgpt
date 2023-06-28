@@ -151,6 +151,8 @@ export class OpenApiDocument {
 }
 
 function isOpenApi3(document: any): document is OpenAPI.Document {
+  console.log('document====>', document)
   const version = document?.openapi ?? ''
+  console.log('version====>', version)
   return version.startsWith('3.')
 }

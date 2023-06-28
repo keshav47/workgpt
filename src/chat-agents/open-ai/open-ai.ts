@@ -18,7 +18,7 @@ export class OpenAiAgent extends ChatAgent {
   apiKey: string | undefined
 
   constructor({
-    model = 'gpt-4-0613',
+    model = 'gpt-3.5-turbo-0613',
     temperature = 0,
     apiKey,
     verbose = false,

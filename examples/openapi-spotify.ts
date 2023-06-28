@@ -3,36 +3,41 @@ import { Api, invokable } from '../src/apis'
 import { Calculator } from '../src/apis/calculator'
 import { FactApi } from '../src/apis/fact'
 import { OpenpmApi } from '../src/apis/openpm'
+import {OpenApi} from '../src/apis/openapi/openapi'
 import { OpenAiAgent } from '../src/chat-agents/open-ai'
 import { WorkGptRunner } from '../src/runners/workgpt'
 import { haltProgram } from '../src/runners/control'
 import {AzureOpenAiAgent} from "../src/chat-agents/azure-open-ai";
-
+import * as yaml from 'js-yaml';
+import * as fs from 'fs';
 
 export class WorkGptControl extends Api {
   @invokable({
     usage:
       'Finishes the program. Call when you have an answer, or you have finished the task you were given.',
     schema: z.object({
-      city: z.string(),
-      population: z.number(),
+      song: z.string(),
     }),
   })
-  onFinish(result: { city: string; population: number }) {
+  onFinish(result: { song: string; }) {
     haltProgram(result)
   }
 }
 
 async function main() {
+
+  const fileContents = fs.readFileSync('/Users/keshavgupta/Code/quantive/workgpt/openapi-yml/fixed-spotify-open-api.yml', 'utf8');
+  const data : any = yaml.load(fileContents);  
+  
   const agent = new OpenAiAgent({
     verbose: true,
     temperature: 0.1,
   })
 
   const apis = await Promise.all([
-    OpenpmApi.fromPackageId('ipinfo', {
-      authKey: process.env.IPINFO_API_KEY!,
-    }),
+    OpenApi.fromDocument(data, {
+        authKey: process.env.SPOTIFY_API_KEY!,
+      }),
     new Calculator(),
     new FactApi(),
   ])
@@ -43,7 +48,7 @@ async function main() {
   })
 
   const result = await runner.runWithDirective(
-    'What is the city related to the ip address 117.248.249.187 and what is the population of that city?'
+    'What is the most played song by coldplay'
   )
 
   console.log('Result', result)
